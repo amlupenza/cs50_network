@@ -1,0 +1,47 @@
+{% extends 'network/layout.html' %}
+{% load static %}
+{% block body %}
+{% if user.is_authenticated %}
+<section id="profile_info">
+    <div class="profile_imgs">
+        <img src="{% static 'network/user.jpg' %}" alt="img">
+        <h3>{{profile}}</h3>
+    </div>
+    <div class="profile_btn">
+        {% if profile != request.user %}
+        <i class="fa-solid fa-envelope"></i>
+        {% if followed %}
+        <button class="btn-primary follow-btn" data-id="{{profile.id}}" id="follow-btn-{{profile.id}}">Unfollow</button>
+        {% else %}
+        <button class="btn-primary follow-btn" data-id="{{profile.id}}" id="follow-btn-{{profile.id}}">Follow</button>
+        {% endif %}
+        {% endif %}
+    </div>
+    <h3>{{profile.user_name}}</h3>
+    <div class="follow_following container">
+        <strong id="followings-{{profile.id}}">{{followings}}</strong>
+        <span>Following</span>
+        <strong id="followers-{{profile.id}}">{{followers}}</strong>
+        <span>Folllowers</span>
+    </div>
+</section>
+{% for post in posts %}
+<section class="tweet">
+    <div class="row container">
+        <div class="userImg col-1">
+            <img src="{% static 'network/user.jpg' %}" alt="">
+        </div>
+        <div class="tweetContent col">
+            <h3>{{post.author}}</h3>
+            <span>Posted at {{post.time}}</span>
+            <p>{{post.tweet}}</p>
+        </div>
+    </div>
+    <div class="tweetIcon container">
+        <i class="fa-regular fa-comment"></i>
+        <i class="fa-regular fa-heart"></i>
+    </div> 
+</section>
+{% endfor %}
+{% endif %}
+{% endblock %}

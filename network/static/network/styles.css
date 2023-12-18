@@ -1,0 +1,210 @@
+
+body{
+    
+    background-color: rgba(31, 22, 10, 0.978);
+}
+.left-container{
+    position: fixed;
+}
+.navbar-left{
+
+    padding-left: 100px;
+    height: 100vh;
+}
+.navbar-nav{
+    flex-direction: column;
+
+}
+.navbar{
+    height: 100vh;
+}
+.navbar > a{
+    display: block;
+    border: solid 1px white;
+}
+.logo img{
+    width: 40px;
+    height: 40px;
+    margin-top: 10px;
+}
+.body{
+    border-right: solid 1px white;
+    border-left: solid 1px white;
+    padding: 0 !important;
+}
+.right_nav{
+    position: relative;
+}
+section{
+    border-bottom: solid 1px white;   
+    position: relative;
+}
+#ForYou{
+    height: 50px;
+    border: none;
+}
+.tofix{
+    
+    z-index: 10;
+    border-bottom: solid 1px white;
+}
+#ForYou i{
+    color: white;
+}
+#ForYou a{
+    color: white;
+    text-decoration: none;
+}
+#ForYou div{
+    text-align: center;
+    padding: 8px;
+}
+#ForYou div>div:hover{
+    background-color: rgb(158, 155, 155);
+}
+
+#new_post{
+    padding:10px;
+    height: 50px;
+}
+#new_post input{
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    color: white;
+    outline: none;
+}
+.on_newPostDiv{
+    display: inline-block; 
+    width: 100px;
+    position: relative; 
+    margin-bottom: 4px;
+}
+.icons i{
+    color: blue;
+    margin-right: 4px;
+}
+#post{
+    position: relative;
+}
+.message{
+    color: white;
+}
+#post_btn{
+    position: absolute;
+    right: 10px;
+    width: 100px;
+    bottom: 4px;
+}
+#post_btn input{
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    background-color: blue;
+    color: white;
+}
+.userImg{
+    padding: 10px;
+}
+.userImg img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    
+}
+.tweetContent h3, span{
+    display: inline-block;
+    color: rgb(245, 20, 20);
+}
+.tweet p{
+    padding: 8px;
+    color: white;
+}
+.tweetIcon{
+    padding: 10px;
+    color: white;
+}
+.tweetIcon i{
+    color: white;
+}
+/*................loginform...........................*/
+#loginForm{
+    width: 50%;
+    margin: 10px auto;
+    color: white;
+}
+
+/*...............Profile page styling.................*/
+.profile_imgs{
+    background-color: rgb(5, 95, 108);
+    position: relative;
+    height: 200px;
+}
+.profile_imgs img{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    left: 10px;
+    bottom: -20px;
+    border: solid 2px white;
+}
+.profile_imgs h3{
+    color: white;
+    position: relative;
+    top: 50px;
+    text-align: center;
+}
+.profile_btn{
+    display: flex;
+    justify-content: right;
+    color: white;
+    align-items: center;
+    
+}
+.profile_btn button{
+    margin: 4px;
+    border-style: none !important;
+    border-radius: 4px !important;
+}
+.profile_btn i{
+    font-size: 30px;
+}
+.commentForm{
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(128, 128, 128, 0.403);
+    top: 0;
+    display: none;
+}
+.commentForm > div{
+    position: relative;
+    top: 30px;
+    background-color: black;
+    margin: 0 auto;
+    width: 50%;
+    border-radius: 10px;
+    padding: 10px;
+}
+#userAndcomment{
+    display: flex;
+    align-items: center;
+}
+.postcontents h4,p{
+    color: white;
+}
+#userAndcomment input{
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    color: white;
+    outline: none;
+}
+.fa-xmark{
+    color: white;
+}
+.follow_following{
+    margin-top: 20px;
+}
+
