@@ -6,8 +6,8 @@
 {% if user.is_authenticated %}
 <section id="ForYou" class="container">
     <div class="row tofix">
-        <div class="col"><a href="#">For you</a></div>
-        <div class="col"><a  href="#">Following</a></div>
+        <div class="col" id="forYoubtn">For you</div>
+        <div class="col" id="followingBtn">Following</div>
     </div>
 </section>
 <section id="post" class="container">
@@ -34,7 +34,7 @@
         </div>
     </form>
 </section>
-
+<div id="allposts">
 {% for post in posts %}
 <section class="tweet" id="{{post.id}}">
     <div class="row container">
@@ -51,10 +51,29 @@
         <i class="fa-regular fa-comment" class="commentIcon"></i>
         <i class="fa-regular fa-heart" class="likeIcon"></i>
     </div>
-
 </section>
-
 {% endfor %}
+</div>
+<div id="followingPosts">
+    {% for post in followingPosts %}
+    <section class="tweet" id="{{post.id}}">
+        <div class="row container">
+            <div class="userImg col-1">
+                <img src="{% static 'network/user.jpg' %}" alt="">
+            </div>
+            <div class="tweetContent col">
+                <h3><a href="{% url 'profile' post.author.id %}">{{post.author}} </a></h3>
+                <span>@username . {{post.time}}</span>
+                <p>{{post.tweet}}</p>
+            </div>
+        </div>
+        <div class="tweetIcon container">
+            <i class="fa-regular fa-comment" class="commentIcon"></i>
+            <i class="fa-regular fa-heart" class="likeIcon"></i>
+        </div>
+    </section>
+    {% endfor %}
+</div>
 <div class="commentForm">
     <div class="container">
         <div><i class="fa-solid fa-xmark"></i></div>

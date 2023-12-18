@@ -2,7 +2,21 @@ window.addEventListener('DOMContentLoaded',()=>{
     document.querySelectorAll('.follow-btn').forEach((btn)=>{
         let user_id = btn.dataset.id
         btn.onclick = ()=> follow_user(user_id);
-    })
+    });
+    document.querySelector('#followingBtn').onclick = ()=>{
+        // hide allposts div
+        console.log('following is clicked')
+        document.querySelector('#allposts').style.display = 'none';
+        // show followingposts div
+        document.querySelector('#followingPosts').style.display = 'block';
+    };
+    document.querySelector('#forYoubtn').onclick = () =>{
+        console.log('forYou btn is clicked')
+        // show allposts div
+        document.querySelector('#allposts').style.display = 'block';
+        // hide followingposts div
+        document.querySelector('#followingPosts').style.display = 'none';
+    };
 })
 
 // follow_user function

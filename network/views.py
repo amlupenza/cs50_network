@@ -14,8 +14,17 @@ from .models import User
 
 
 def index(request):
+    # get user
+    user = request.user
+    # get user's followings
+    followingAccounts = Account.objects.filter(user=user)
+    # get all users that user is following
+    followingUsers = [account.target for account in followingAccounts]
+     #list of followings posts
+    followingPosts = Post.objects.filter(author__in=followingUsers).order_by('-time')
     return render(request, "network/index.html", {
-        'posts': Post.objects.all().order_by('-time')
+        'posts': Post.objects.all().order_by('-time'),
+        'followingPosts': followingPosts
     })
 
 # Tweet view
@@ -71,8 +80,6 @@ def profile(request, profile_id):
             return HttpResponseRedirect(reverse('index'))
    
 
-    
-
 # follow function
 @require_POST
 @csrf_exempt
@@ -104,6 +111,9 @@ def follow_user(request, account_id):
             'followings': Account.objects.filter(user=target).count()
             })
 
+
+   
+        
 
     
     

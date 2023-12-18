@@ -160,7 +160,7 @@ section{
     justify-content: right;
     color: white;
     align-items: center;
-    
+
 }
 .profile_btn button{
     margin: 4px;
@@ -206,5 +206,8 @@ section{
 }
 .follow_following{
     margin-top: 20px;
+}
+#followingPosts{
+    display: none
 }
 
