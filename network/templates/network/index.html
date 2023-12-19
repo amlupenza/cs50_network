@@ -6,8 +6,8 @@
 {% if user.is_authenticated %}
 <section id="ForYou" class="container">
     <div class="row tofix">
-        <div class="col" id="forYoubtn">For you</div>
-        <div class="col" id="followingBtn">Following</div>
+        <div class="col" id="forYoubtn"><a href="{% url 'index' %}">For you</a></div>
+        <div class="col" id="followingBtn"><a href="{% url 'following' %}">Following</a></div>
     </div>
 </section>
 <section id="post" class="container">
@@ -35,7 +35,7 @@
     </form>
 </section>
 <div id="allposts">
-{% for post in posts %}
+{% for post in page_obj %}
 <section class="tweet" id="{{post.id}}">
     <div class="row container">
         <div class="userImg col-1">
@@ -44,36 +44,33 @@
         <div class="tweetContent col">
             <h3><a href="{% url 'profile' post.author.id %}">{{post.author}} </a></h3>
             <span>@username . {{post.time}}</span>
-            <p>{{post.tweet}}</p>
+            <p id="tweet-{{post.id}}">{{post.tweet}}</p>
         </div>
     </div>
     <div class="tweetIcon container">
-        <i class="fa-regular fa-comment" class="commentIcon"></i>
-        <i class="fa-regular fa-heart" class="likeIcon"></i>
+        <i class="fa-regular fa-comment commentIcon" data-comment="{{post.id}}"></i>
+        <i class="fa-regular fa-heart likeIcon" data-like="{{post.id}}"></i>
+        {% if request.user == post.author %}
+        <i class="fa-regular fa-pen-to-square" data-edit="{{post.id}}"></i>
+        {% endif %}
     </div>
 </section>
 {% endfor %}
+<nav aria-label="Page navigation">
+    <ul class="pagination container">
+    {% if page_obj.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page=1">&laquo;1</a></li>
+    <li class="page-item"><a class="page-link" href="?page={{page_obj_all.previous_page_number}}">Previous</a></li>
+    {% endif %}
+      <li class="page-item">Page{{page_obj.number}} of {{page_obj.paginator.num_pages}}</li>
+    {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
+    {% endif %}
+    </ul>
+  </nav>
 </div>
-<div id="followingPosts">
-    {% for post in followingPosts %}
-    <section class="tweet" id="{{post.id}}">
-        <div class="row container">
-            <div class="userImg col-1">
-                <img src="{% static 'network/user.jpg' %}" alt="">
-            </div>
-            <div class="tweetContent col">
-                <h3><a href="{% url 'profile' post.author.id %}">{{post.author}} </a></h3>
-                <span>@username . {{post.time}}</span>
-                <p>{{post.tweet}}</p>
-            </div>
-        </div>
-        <div class="tweetIcon container">
-            <i class="fa-regular fa-comment" class="commentIcon"></i>
-            <i class="fa-regular fa-heart" class="likeIcon"></i>
-        </div>
-    </section>
-    {% endfor %}
-</div>
+
 <div class="commentForm">
     <div class="container">
         <div><i class="fa-solid fa-xmark"></i></div>
@@ -83,9 +80,9 @@
                     <img src="{% static 'network/user.jpg' %}" alt="">
                 </div>
                 <div class="tweetContent col">
-                    <h4><a href="#">UserName</a></h4>
-                    <span>Time Posted</span>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos ea modi quo, veritatis natus officiis cumque ipsa laborum laudantium ex eveniet impedit accusamus eaque totam labore necessitatibus dicta repudiandae sequi!</p>
+                    <h4><a href="#" id="post_author"></a></h4>
+                    <span id="timeAuthored"></span>
+                    <p id="theTweet"></p>
                 </div>
             </div>
         </div>

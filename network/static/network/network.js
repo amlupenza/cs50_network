@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded',()=>{
     document.querySelectorAll('.follow-btn').forEach((btn)=>{
-        let user_id = btn.dataset.id
+        let user_id = btn.dataset.id;
         btn.onclick = ()=> follow_user(user_id);
     });
     document.querySelector('#followingBtn').onclick = ()=>{
@@ -10,13 +10,13 @@ window.addEventListener('DOMContentLoaded',()=>{
         // show followingposts div
         document.querySelector('#followingPosts').style.display = 'block';
     };
-    document.querySelector('#forYoubtn').onclick = () =>{
-        console.log('forYou btn is clicked')
-        // show allposts div
-        document.querySelector('#allposts').style.display = 'block';
-        // hide followingposts div
-        document.querySelector('#followingPosts').style.display = 'none';
-    };
+    document.querySelectorAll('.fa-pen-to-square').forEach((btn) => {
+        let postId = btn.dataset.edit;
+        btn.onclick = () => {
+            console.log(`edit of id ${postId} has been clicked`)
+            editPost(postId);
+        }
+    })
 })
 
 // follow_user function
@@ -49,4 +49,40 @@ function follow_user(userId){
     .catch(error => {
         console.error(error);
     });
+}
+
+// edit post function
+
+function editPost(postId){
+    fetch(`/editPost/${postId}`)
+    .then(response => response.json())
+    .then(data =>{
+        let div = document.createElement('div');
+        div.className = 'editCont';
+        div.innerHTML =`<form action='#' method='post' id='editform'><h5>${data.author}</h5><textarea name="newPost" id="newPost" cols="30" rows="10">${data.tweet}</textarea><input type='submit' value='Save changes' class='btn-primary'><button class='btn-danger' id='cancel-edit'>Cancel</button></form>`;
+        document.body.appendChild(div);
+        document.querySelector('#cancel-edit').onclick = () => div.remove();
+        let form = document.querySelector('#editform');
+        form.onsubmit = (event)=>{
+            event.preventDefault();
+            // tweet paragraph element
+            console.log(postId)
+            let tweetpar = document.querySelector(`#tweet-${postId}`)
+            let newPost = document.querySelector('#newPost').value
+            fetch(`/editPost/${postId}`, {
+                method : 'POST',
+                headers : {
+                    'content-type': 'application/json',
+                },
+                body : JSON.stringify({newPost: newPost})
+            })
+            .then(response =>{
+                tweetpar.innerHTML = newPost;
+                div.remove();
+            })
+            .catch(error =>{
+                console.error('error:',error);
+            });
+        }
+    })
 }

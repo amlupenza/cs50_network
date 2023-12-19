@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.core.paginator import Paginator
 from django.contrib import messages
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -9,23 +10,49 @@ from datetime import datetime
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
+import json
 
 from .models import User
 
 
 def index(request):
-    # get user
-    user = request.user
-    # get user's followings
-    followingAccounts = Account.objects.filter(user=user)
-    # get all users that user is following
-    followingUsers = [account.target for account in followingAccounts]
-     #list of followings posts
-    followingPosts = Post.objects.filter(author__in=followingUsers).order_by('-time')
+
+    # get posts
+    posts = Post.objects.all().order_by('-time')
+    # paginator for all posts
+    paginator = Paginator(posts,10)
+    
+    page_number = request.GET.get('page')
+    #page object for all posts
+    page_obj = paginator.get_page(page_number)
+    
+    
     return render(request, "network/index.html", {
-        'posts': Post.objects.all().order_by('-time'),
-        'followingPosts': followingPosts
+        
+        'page_obj' : page_obj,
     })
+
+# Following view
+def following(request):
+    # get user 
+    user = request.user
+    # check if user is following any user
+    if Account.objects.filter(user=user).exists():
+        followingAccounts = Account.objects.filter(user=user)
+        followingUsers = [account.target for account in followingAccounts]
+    else:
+        messages.error(request, 'Sorry, no posts for accounts you are following')
+        return HttpResponseRedirect(reverse('index'))
+    posts = Post.objects.filter(author__in=followingUsers)
+    # get paginator object
+    paginator = Paginator(posts,10)
+    page_number = request.GET.get('page')
+    # page object for posts
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'network/index.html', {
+        'page_obj': page_obj
+    })
+
 
 # Tweet view
 def tweet(request):
@@ -111,6 +138,34 @@ def follow_user(request, account_id):
             'followings': Account.objects.filter(user=target).count()
             })
 
+# edit view
+@csrf_exempt
+def edit_post(request,post_id):
+        # try if post exists
+        try:
+            # get the post
+            post = Post.objects.get(pk=post_id)
+
+        except ObjectDoesNotExist:
+            messages.error(request, 'Sorry, post you are accesing does not exist')
+            return HttpResponseRedirect(reverse('index'))
+        
+        if request.method == 'POST':
+            print('post went through')
+            data = json.loads(request.body)
+            newPost = data['newPost']
+            # update tweet to newpost
+            post.tweet = newPost
+            print(post.tweet)
+            # save new post
+            post.save()
+            return HttpResponseRedirect(reverse('index'))
+
+    
+        return JsonResponse({
+            'tweet' : post.tweet,
+            'author' : post.author.username.capitalize(),
+        })
 
    
         

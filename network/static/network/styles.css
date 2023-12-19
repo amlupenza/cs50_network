@@ -210,4 +210,48 @@ section{
 #followingPosts{
     display: none
 }
+/*...........Paginator links...............*/
+.page-item{
+    color: rgb(0, 120, 48) !important;
+    text-align: center !important;
+}
+.pagination{
+    justify-content: center !important;
+}
+/* ................ edit div..............*/
+.editCont{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(24, 160, 137, 0.637);
+
+}
+.editCont form{
+    width: 50%;
+    left: 20%;
+    top: 100px;
+    position: absolute;
+}
+.editCont textarea{
+    display: block;
+    background-color: rgb(177, 3, 3);
+    color: white;
+    margin: 4px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+
+}
+#cancel-edit{
+    background-color: rgb(177, 3, 3);
+    border-style: none;
+    margin-left: 4px;
+}
+#editform h5{
+    color: rgb(1, 1, 90);
+    text-align: center;
+}
 
