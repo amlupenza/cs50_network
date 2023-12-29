@@ -5,7 +5,7 @@
 <section id="profile_info">
     <div class="profile_imgs">
         <img src="{% static 'network/user.jpg' %}" alt="img">
-        <h3>{{profile}}</h3>
+        <h3>{{profile|capfirst}}</h3>
     </div>
     <div class="profile_btn">
         {% if profile != request.user %}
@@ -17,7 +17,7 @@
         {% endif %}
         {% endif %}
     </div>
-    <h3 class="username">{{profile.user_name}}</h3>
+    <h3 class="username">{{profile.user_name|capfirst}}</h3>
     <div class="follow_following container">
         <strong id="followings-{{profile.id}}">{{followings}}</strong>
         <span>Following</span>
@@ -28,12 +28,12 @@
 {% for post in posts %}
 <section class="tweet">
     <div class="row container">
-        <div class="userImg col-1">
+        <div class="userImg col-sm-1">
             <img src="{% static 'network/user.jpg' %}" alt="">
         </div>
-        <div class="tweetContent col">
-            <h3 class="username">{{post.author}}</h3>
-            <span>Posted at {{post.time}}</span>
+        <div class="tweetContent col-sm-11">
+            <h3 class="username">{{post.author|capfirst}}</h3>
+            <span>{{post.time}}</span>
             <p>{{post.tweet}}</p>
         </div>
     </div>

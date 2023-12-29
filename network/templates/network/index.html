@@ -54,12 +54,12 @@
 {% for post in page_obj %}
 <section class="tweet" id="{{post.id}}">
     <div class="row container">
-        <div class="userImg col-1">
+        <div class="userImg">
             <img src="{% static 'network/user.jpg' %}" alt="">
         </div>
-        <div class="tweetContent col">
-            <h3 class="col-sm-6"><a href="{% url 'profile' post.author.id %}" class="username">{{post.author|capfirst}} </a></h3>
-            <span class="col-sm-6">.{{post.time}}</span>
+        <div class="tweetContent col-sm-11">
+            <h3 class=""><a href="{% url 'profile' post.author.id %}" class="username">{{post.author|capfirst}} </a></h3>
+            <span class="">.{{post.time}}</span>
             <p id="tweet-{{post.id}}">{{post.tweet}}</p>
         </div>
     </div>
