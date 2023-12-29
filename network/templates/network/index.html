@@ -4,10 +4,26 @@
 
 {% block body %}
 {% if user.is_authenticated %}
+<div class="container" id="topDiv">
+    <div class="row">
+        <div class="userImg col-2 header">
+            <img src="{% static 'network/user.jpg' %}" alt="image" id="showMenu">
+        </div>
+        <div class="col-10 header">
+            <strong>Balo<span>X</span></strong>
+        </div>
+    </div>
+</div>
 <section id="ForYou" class="container">
     <div class="row tofix">
-        <div class="col" id="forYoubtn"><a href="{% url 'index' %}">For you</a></div>
-        <div class="col" id="followingBtn"><a href="{% url 'following' %}">Following</a></div>
+        {% if all_posts %}
+        <a class="col for_follow active" href="{% url 'index' %}"><div id="forYoubtn">For you</div></a>
+        <a class="col for_follow" href="{% url 'following' %}"><div id="followingBtn">Following</div></a>
+        {% else %}
+        <a class="col for_follow" href="{% url 'index' %}"><div id="forYoubtn">For you</div></a>
+        <a class="col for_follow active" href="{% url 'following' %}"><div id="followingBtn">Following</div></a>
+        {% endif %}
+
     </div>
 </section>
 <section id="post" class="container">
@@ -21,15 +37,15 @@
         <div id="new_post">
             <input type="text" autocomplete="off" placeholder="What's happening?!" name="tweet">
         </div>
-        <div class="container row">
-            <div class="on_newPostDiv icons col">
+        <div class="row">
+            <div class="on_newPostDiv icons col-sm-7 col-md-10">
                 <i class="fa-regular fa-image"></i>
                 <i class="fa-solid fa-list"></i>
                 <i class="fa-regular fa-face-smile"></i>
                 <i class="fa-regular fa-calendar"></i>
             </div>
-            <div class="on_newPostDiv col" id="post_btn">
-                <input type="submit" value="Post">
+            <div class="on_newPostDiv col-sm-5 col-md-2" id="post_btn">
+                <input class='btn' type="submit" value="Post">
             </div>
         </div>
     </form>
@@ -42,16 +58,28 @@
             <img src="{% static 'network/user.jpg' %}" alt="">
         </div>
         <div class="tweetContent col">
-            <h3><a href="{% url 'profile' post.author.id %}">{{post.author}} </a></h3>
-            <span>@username . {{post.time}}</span>
+            <h3 class="col-sm-6"><a href="{% url 'profile' post.author.id %}" class="username">{{post.author|capfirst}} </a></h3>
+            <span class="col-sm-6">.{{post.time}}</span>
             <p id="tweet-{{post.id}}">{{post.tweet}}</p>
         </div>
     </div>
-    <div class="tweetIcon container">
-        <i class="fa-regular fa-comment commentIcon" data-comment="{{post.id}}"></i>
-        <i class="fa-regular fa-heart likeIcon" data-like="{{post.id}}"></i>
+    <div class="tweetIcon container row">
+        <div class="col">
+        <i class="fa-solid fa-comment commentIcon" data-comment="{{post.id}}"></i>
+        </div>
+        <div class="col">
+            <span id="post-likes-{{post.id}}">{{post.likes}}</span>
+            {% if request.user in post.liked_by.all %}
+                <i class="liked fa-solid fa-heart likeIcon " data-like="post-{{post.id}}" id="post-like-{{post.id}}"></i>
+            {% else %}
+                <i class="unliked fa-solid fa-heart likeIcon " data-like="post-{{post.id}}" id="post-like-{{post.id}}"></i>
+            {% endif %}
+        </div>
         {% if request.user == post.author %}
-        <i class="fa-regular fa-pen-to-square" data-edit="{{post.id}}"></i>
+        <div class="col">
+            
+            <i class="fa-solid fa-pen-to-square" data-edit="{{post.id}}"></i>
+        </div>
         {% endif %}
     </div>
 </section>

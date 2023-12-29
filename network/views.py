@@ -30,6 +30,7 @@ def index(request):
     return render(request, "network/index.html", {
         
         'page_obj' : page_obj,
+        'all_posts' : True
     })
 
 # Following view
@@ -50,7 +51,8 @@ def following(request):
     # page object for posts
     page_obj = paginator.get_page(page_number)
     return render(request, 'network/index.html', {
-        'page_obj': page_obj
+        'page_obj': page_obj,
+        'all_posts': False
     })
 
 
@@ -173,8 +175,76 @@ def edit_post(request,post_id):
     
     
 # like_post function
+@ require_POST
+@csrf_exempt
 def like_post(request,post_type,post_id):
-    ...
+    # get user
+    user = request.user
+    print('like view accessed')
+    
+    if post_type.lower() == 'comment': 
+        # get the comment
+        comment = Comment.objects.get(id=post_id)
+        # check if this comment is in the user's liked comments (if user haven't liked the comment)
+        if user not in comment.liked_by.all():
+            # add user to the liked by list
+            comment.liked_by(user).add()
+            # increase comment likes by 1
+            comment.likes += 1
+            # save the comment
+            comment.save()
+            return JsonResponse({
+                'liked' : True,
+                'likes': comment.likes.count(),
+                'post_type': 'comment'
+            })
+        # else if user liked the comment
+        else:
+            # remove user from the comment like_by list ( make user unlike the comment)
+            comment.liked_by(user).remove()
+            # decrease comment likes by 1
+            comment.likes -= 1
+            # save the comment
+            comment.save()
+            return JsonResponse({
+                'liked' : False,
+                'likes': comment.likes.count(),
+                'post_type': 'comment'
+            })
+
+    elif post_type.lower() == 'post':
+        # get the post
+        post = Post.objects.get(pk=post_id)
+        # check if this post is in the user's liked posts (if user haven't liked the post)
+        if user not in post.liked_by.all():
+            # add user to the post's liked by
+            post.liked_by.add(user)
+            # increase the post likes by 1
+            post.likes += 1
+            # save the post
+            post.save()
+            print(f'This post has {post.likes} likes')
+            return JsonResponse({
+                'liked' : True,
+                'likes': post.likes,
+                'post_type': 'post'
+                
+            })
+        else:
+            # remove user from the liked post
+            post.liked_by.remove(user)
+            # decrease the post like by 1
+            post.likes -= 1
+            # save the post
+            post.save()
+            print(f'This post has {post.likes} likes')
+            return JsonResponse({
+                'liked': False,
+                'likes': post.likes,
+                'post_type': 'post'
+            })
+
+
 def login_view(request):
     if request.method == "POST":
 
@@ -222,9 +292,9 @@ def register(request):
                 "message": "Username already taken."
             })
         # create an account
-        account = Account(user=request.user)
+        #account = Account(user=request.user)
         # save the account
-        account.save()
+        #account.save()
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:

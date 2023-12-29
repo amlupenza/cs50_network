@@ -1,22 +1,65 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
 body{
     
-    background-color: rgba(31, 22, 10, 0.978);
+    background-color: white;
 }
+
 .left-container{
-    position: fixed;
+    
+    padding: 2px !important;
 }
 .navbar-left{
-
-    padding-left: 100px;
+    position: fixed;
+    display: block;
+    padding: 10px;
     height: 100vh;
+    background-color: #2F45EB; 
 }
-.navbar-nav{
-    flex-direction: column;
+.navbar-left a{
+    color: white;
+}
+#hideMenu{
+    top: 10px;
+    right: 6px;
+    position: absolute;
+    font-size: 20px;
+    color: white;
+    display: none;
+}
+.header{
+    color:  #E05E1F;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    font-family: 'Lobster', sans-serif;
+    font-size: 18px;
+}
+#topDiv{
+    display: none;
+    position: sticky;
+    z-index: 10;
+    background-color: white;
+    
+}
 
-}
 .navbar{
     height: 100vh;
+}
+span{
+    color:#25BD0C;
+}
+.navbar-brand{
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 30px;
+    color: #E05E1F;
+    background-color: #42448B;
+    border-radius: 10px;
+    box-shadow: 1px 2px 10px #25BD0C;
+    font-family: 'Lobster', sans-serif;
 }
 .navbar > a{
     display: block;
@@ -28,39 +71,45 @@ body{
     margin-top: 10px;
 }
 .body{
-    border-right: solid 1px white;
-    border-left: solid 1px white;
+  
     padding: 0 !important;
+    position: absolute;
+    right: 0;
 }
-.right_nav{
-    position: relative;
-}
+
 section{
-    border-bottom: solid 1px white;   
+    border-bottom: solid 1px black;   
     position: relative;
 }
 #ForYou{
+    position: relative;
     height: 50px;
     border: none;
 }
-.tofix{
-    
-    z-index: 10;
-    border-bottom: solid 1px white;
-}
+
 #ForYou i{
     color: white;
 }
-#ForYou a{
-    color: white;
+.for_follow{
+    color: rgb(0, 0, 0);
     text-decoration: none;
+    padding: 10px;
+}
+.for_follow:hover{
+    text-decoration: none;
+    color: #E04704;
 }
 #ForYou div{
     text-align: center;
-    padding: 8px;
+    height: 20px;
 }
 #ForYou div>div:hover{
     background-color: rgb(158, 155, 155);
+}
+
+.active{
+    background-color: #416132;
+    color: #25BD0C;
 }
 
 #new_post{
@@ -71,7 +120,7 @@ section{
     width: 100%;
     border: none;
     background-color: transparent;
-    color: white;
+    color:black;
     outline: none;
 }
 .on_newPostDiv{
@@ -81,7 +130,7 @@ section{
     margin-bottom: 4px;
 }
 .icons i{
-    color: blue;
+    color: #0C25BD;
     margin-right: 4px;
 }
 #post{
@@ -90,18 +139,12 @@ section{
 .message{
     color: white;
 }
-#post_btn{
-    position: absolute;
-    right: 10px;
-    width: 100px;
-    bottom: 4px;
-}
+
 #post_btn input{
     width: 100%;
-    border-radius: 10px;
-    border: none;
-    background-color: blue;
+    background-color: #0C25BD;
     color: white;
+    right: 2px
 }
 .userImg{
     padding: 10px;
@@ -112,26 +155,26 @@ section{
     border-radius: 50%;
     
 }
-.tweetContent h3, span{
+.tweetContent h3{
     display: inline-block;
     color: rgb(245, 20, 20);
 }
 .tweet p{
     padding: 8px;
-    color: white;
+    color: black;
 }
 .tweetIcon{
     padding: 10px;
     color: white;
 }
-.tweetIcon i{
-    color: white;
+.fa-solid{
+    color: black;
 }
 /*................loginform...........................*/
 #loginForm{
     width: 50%;
     margin: 10px auto;
-    color: white;
+    color: black;
 }
 
 /*...............Profile page styling.................*/
@@ -160,6 +203,7 @@ section{
     justify-content: right;
     color: white;
     align-items: center;
+    height: 15px;
 
 }
 .profile_btn button{
@@ -187,6 +231,9 @@ section{
     border-radius: 10px;
     padding: 10px;
 }
+.username{
+    color: #2F45EB;
+}
 #userAndcomment{
     display: flex;
     align-items: center;
@@ -204,19 +251,28 @@ section{
 .fa-xmark{
     color: white;
 }
-.follow_following{
-    margin-top: 20px;
-}
+
 #followingPosts{
     display: none
 }
 /*...........Paginator links...............*/
 .page-item{
     color: rgb(0, 120, 48) !important;
-    text-align: center !important;
+    
 }
 .pagination{
     justify-content: center !important;
+    align-content: center;
+    align-items: center;
+    margin: 4px;
+}
+.pagination li{
+    margin: 4px;
+}
+.page-link{
+    border-radius: 4px;
+    background-color: #416132;
+    color: white;
 }
 /* ................ edit div..............*/
 .editCont{
@@ -224,7 +280,7 @@ section{
     top: 0;
     width: 100%;
     height: 100vh;
-    background-color: rgba(24, 160, 137, 0.637);
+    background-color: rgba(24, 160, 137, 0.89);
 
 }
 .editCont form{
@@ -235,7 +291,7 @@ section{
 }
 .editCont textarea{
     display: block;
-    background-color: rgb(177, 3, 3);
+    background-color: #E04704;
     color: white;
     margin: 4px;
     border: none;
@@ -246,12 +302,51 @@ section{
 
 }
 #cancel-edit{
-    background-color: rgb(177, 3, 3);
+    background-color: #E04704;
     border-style: none;
     margin-left: 4px;
 }
+.btn-primary{
+    background-color: #0C25BD !important;
+}
 #editform h5{
-    color: rgb(1, 1, 90);
+    color: #0C25BD;
     text-align: center;
 }
-
+/*........... change like button to red............*/
+.liked{
+    color: red;
+}
+.unliked{
+    color: black;
+}
+/*.fa-solid{
+    color: black;
+}
+/*..........messages................*/
+.message{
+    position: relative;
+    top: 10px;
+    color: red;
+    font-family: sans-serif;
+    
+}
+@media (max-width: 600px){
+    .navbar-left{
+        display: none;
+        z-index: 100;
+        width: 50%;
+    }
+    .editCont form{
+        width: 80%;
+        margin: 2px auto;
+        left: 8%;
+    }
+    #topDiv{
+        display: block;
+    }
+    #hideMenu{
+        display: block;
+    }
+    
+}

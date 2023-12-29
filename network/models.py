@@ -17,7 +17,7 @@ class Account(models.Model):
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tweet')
     tweet = models.TextField(verbose_name='post', null=False, blank=False)
-    liked_by = models.ManyToManyField(User, related_name='liked_posts')
+    liked_by = models.ManyToManyField(User, related_name='liked_posts', null=True, blank=True)
     likes = models.IntegerField(null=True, blank=True, verbose_name='like', max_length=20, default=0)
     time = models.DateTimeField(verbose_name='creation time')
 
@@ -29,8 +29,8 @@ class Comment(models.Model):
     comment = models.TextField(verbose_name='comment', max_length=160)
     tweet = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments',verbose_name='tweet')
     time = models.DateTimeField(verbose_name='creation date')
-    liked_by = models.ManyToManyField(User, related_name='liked_comments')
-    like = models.IntegerField(verbose_name='like',null=True, blank=True, max_length=20, default=0)
+    liked_by = models.ManyToManyField(User, related_name='liked_comments', null=True, blank=True)
+    likes = models.IntegerField(verbose_name='like',null=True, blank=True, max_length=20, default=0)
 
     def __str__(self) -> str:
         return self.comment

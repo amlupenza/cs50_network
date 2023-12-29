@@ -3,6 +3,16 @@ window.addEventListener('DOMContentLoaded',()=>{
         let user_id = btn.dataset.id;
         btn.onclick = ()=> follow_user(user_id);
     });
+    // show sidebar
+    document.querySelector('#showMenu').onclick = ()=>{
+        document.querySelector("#navbar-left").style.display = 'block';
+        document.querySelector('#topDiv').style.display = 'none';
+    };
+    // hide sidebar 
+    document.querySelector('#hideMenu').onclick = () => {
+        document.querySelector("#navbar-left").style.display = 'none';
+        document.querySelector('#topDiv').style.display = 'block';
+    }
     document.querySelector('#followingBtn').onclick = ()=>{
         // hide allposts div
         console.log('following is clicked')
@@ -16,8 +26,28 @@ window.addEventListener('DOMContentLoaded',()=>{
             console.log(`edit of id ${postId} has been clicked`)
             editPost(postId);
         }
-    })
+    });
+    document.querySelectorAll('.likeIcon').forEach((btn)=>{
+
+        btn.onclick = () =>{
+            [post_type, post_id] = btn.dataset.like.split('-');
+            console.log(`post id is ${post_id} is clicked`)
+            like_post(post_type,post_id);
+        }
+    });
+   
 })
+// select like button when page has already loaded
+document.querySelector('body').addEventListener('click',event=>{
+    if(event.target.matches('.likeIcon')){
+        let btn = event.target;
+        let [post_type,post_id] = btn.dataset.like.split('-');
+        // call like function
+        like_post(post_type,post_id);
+    }
+    
+});
+
 
 // follow_user function
 function follow_user(userId){
@@ -59,7 +89,7 @@ function editPost(postId){
     .then(data =>{
         let div = document.createElement('div');
         div.className = 'editCont';
-        div.innerHTML =`<form action='#' method='post' id='editform'><h5>${data.author}</h5><textarea name="newPost" id="newPost" cols="30" rows="10">${data.tweet}</textarea><input type='submit' value='Save changes' class='btn-primary'><button class='btn-danger' id='cancel-edit'>Cancel</button></form>`;
+        div.innerHTML =`<form action='#' method='post' id='editform'><h5>${data.author}, do you want to edit this post?</h5><textarea name="newPost" id="newPost" cols="30" rows="10">${data.tweet}</textarea><div class='row gw-2'><input type='submit' value='Save changes' class='col-md btn btn-primary'><button class='col-md btn btn-danger' id='cancel-edit'>Cancel</button></div></form>`;
         document.body.appendChild(div);
         document.querySelector('#cancel-edit').onclick = () => div.remove();
         let form = document.querySelector('#editform');
@@ -84,5 +114,29 @@ function editPost(postId){
                 console.error('error:',error);
             });
         }
+    })
+}
+
+// like post function
+function like_post(post_type, postId){
+    console.log(`postid is ${postId}`)
+    console.log(`post type is ${post_type}`)
+    fetch(`/likePost/${post_type}/${postId}`, {
+        method : 'POST'
+    })
+    .then(response => response.json())
+    .then(data => {
+        likes = data.likes;
+        console.log(`this has ${likes} likes`)
+        post_type = data.post_type;
+        document.querySelector(`#post-likes-${postId}`).innerHTML = likes;
+        console.log(`like? ${data.liked}`)
+        if(data.liked){
+            document.querySelector(`#${post_type}-like-${postId}`).style.color = 'red';
+        }
+       else{
+            document.querySelector(`#${post_type}-like-${postId}`).style.color = 'black';
+        }
+        
     })
 }

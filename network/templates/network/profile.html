@@ -15,10 +15,9 @@
         {% else %}
         <button class="btn-primary follow-btn" data-id="{{profile.id}}" id="follow-btn-{{profile.id}}">Follow</button>
         {% endif %}
-        
         {% endif %}
     </div>
-    <h3>{{profile.user_name}}</h3>
+    <h3 class="username">{{profile.user_name}}</h3>
     <div class="follow_following container">
         <strong id="followings-{{profile.id}}">{{followings}}</strong>
         <span>Following</span>
@@ -33,14 +32,28 @@
             <img src="{% static 'network/user.jpg' %}" alt="">
         </div>
         <div class="tweetContent col">
-            <h3>{{post.author}}</h3>
+            <h3 class="username">{{post.author}}</h3>
             <span>Posted at {{post.time}}</span>
             <p>{{post.tweet}}</p>
         </div>
     </div>
-    <div class="tweetIcon container">
-        <i class="fa-regular fa-comment"></i>
-        <i class="fa-regular fa-heart"></i>
+    <div class="tweetIcon container row">
+        <div class="col">
+            <i class="fa-solid fa-comment"></i>
+        </div>
+        <div class="col">
+            <span id="post-likes-{{post.id}}">{{post.likes}}</span>
+            {% if request.user in post.liked_by.all %}
+                <i class="liked fa-solid fa-heart likeIcon" data-like="post-{{post.id}}" id="post-like-{{post.id}}"></i>
+            {% else %}
+                <i class="unliked fa-solid fa-heart likeIcon" data-like="post-{{post.id}}" id="post-like-{{post.id}}"></i>
+            {% endif %}
+        </div>
+        {% if request.user == post.author %}
+        <div class="col">
+            <i class="fa-regular fa-pen-to-square" data-edit="{{post.id}}"></i>
+        </div>
+        {% endif %}
     </div> 
 </section>
 {% endfor %}

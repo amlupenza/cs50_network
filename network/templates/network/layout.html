@@ -10,68 +10,58 @@
         
     </head>
     <body>
-    <div class="row container-fluid">
-        <nav class="navbar-left col-3">
-            <div class="left-container container">
-                <a href="#" class="logo"><img src="{% static 'network/twitter_logo2.png' %}" alt="Logo"></a>
-                <div>
-                <ul class="navbar-nav mr-auto row">
-                    {% if user.is_authenticated %}
-                        <li class="nav-item col">
-                            <a class="nav-link" href="#"><strong>Logged in as {{ request.user}}</strong></a>
-                        </li>
-                    {% endif %}
-                    <li class="nav-item col">
-                        <a class="nav-link" href="{% url 'index' %}">All Posts</a>
-                    </li>
-                    <li class="nav-item col">
-                        <a class="nav-link" href="#">Explore</a>
-                    </li>
-                    <li class="nav-item col">
-                    <a class="nav-link" href="#">Notifications</a>
-                    </li>
-                    <li class="nav-item col">
-                        <a class="nav-link" href="#">Messages</a>
-                    </li>
-                    <li class="nav-item col">
-                        <a class="nav-link" href="#">Lists</a>
-                    </li>
-                    <li class="nav-item col">
-                        <a class="nav-link" href="#">Communities</a>
-                    </li>
-                    <li class="nav-item col">
-                        <a class="nav-link" href="#">Profile</a>
-                    </li>
-                    <li class="nav-item col">
-                        <a class="nav-link" href="#">More</a>
-                    </li>
-                    {% if user.is_authenticated %}
-                        <li class="nav-item col">
-                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item col">
-                            <a class="nav-link" href="{% url 'login' %}">Login</a>
-                        </li>
+        <div class="container-fluid">
+            <div class="row">
+                <nav class="navbar navbar-left col-sm-3" id="navbar-left">
+                        <div class="left-container">
+                            <i class="toggleMenubtn fa-solid fa-x " style="color: white;" id="hideMenu"></i>
+                                <ul class="navbar-nav mr-auto">
+                                    <strong class="log navbar-brand">Balo<span>X</span></strong>
+                                {% if user.is_authenticated %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Logged in as <strong>{{ request.user|capfirst}}</strong></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'profile' request.user.id %}">Profile</a>
+                                    </li>
+                                {% endif %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'index' %}">All Posts</a>
+                                </li>
+                                
+                                <li class="nav-item">
+                                <a class="nav-link" href="#">Notifications</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Messages</a>
+                                </li>
+                                
+                                {% if user.is_authenticated %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                                    </li>
+                                
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                                    </li>
+                                {% endif %}
+                                </ul>
+                        </div>
+                </nav>
+                
+                <div class="body col-sm-9">
+                
+                    {% block body %}
                     
-                        <li class="nav-item col">
-                            <a class="nav-link" href="{% url 'register' %}">Register</a>
-                        </li>
-                    {% endif %}
-                </ul>
-                <div class="btn post">Post</div>
+                    {% endblock %}
                 </div>
+                
             </div>
-          </nav>
-        
-        <div class="body col">
-         
-            {% block body %}
-            
-            {% endblock %}
         </div>
-        
-    </div>
     <script src="{% static 'network/network.js' %}"></script>
     </body>
 </html>
