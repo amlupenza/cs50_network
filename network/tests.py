@@ -1,5 +1,5 @@
 from django.test import TestCase, Client
-from .models import *
+from .models import User, Post
 from django.contrib.auth import get_user_model
 from datetime import datetime
 
@@ -8,8 +8,8 @@ from datetime import datetime
 class UserModelTest(TestCase):
     def test_create_user(self):
         User = get_user_model()
-        user = User.objects.create_user(username='testuser', password = 'testpass')
-        self.assertEqual(user.username, 'testuser')
+        user = User.objects.create_user(username='testuser1', password = 'testpass')
+        self.assertEqual(user.username, 'testuser1')
         self.assertTrue(user.check_password('testpass'))
         self.assertEqual(User.objects.count(), 1)
 
@@ -19,7 +19,7 @@ class PostModelTest(TestCase):
     def setUp(self):
         User = get_user_model()
         self.time = datetime.now()
-        self.user = User.objects.create_user(username='testuser', password='testpass')
+        self.user = User.objects.create_user(username='testuser2', password='testpass')
         self.post = Post.objects.create(tweet='Hello, world!', author = self.user, time=self.time)
 
     def test_post(self):
@@ -35,9 +35,11 @@ class PostModelTest(TestCase):
         response = client.get('')
         # ensure status code is 200
         self.assertEqual(response.status_code,200)
+
     def test_valid_profile(self):
-        user = get_user_model()
+        user = self.user
         c = Client()
         response = c.get(f'/{user.id}')
+    
         self.assertEqual(response.status_code,200)
 
