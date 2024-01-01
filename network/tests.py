@@ -36,10 +36,4 @@ class PostModelTest(TestCase):
         # ensure status code is 200
         self.assertEqual(response.status_code,200)
 
-    def test_valid_profile(self):
-        user = self.user
-        c = Client()
-        response = c.get(f'/{user.id}')
-    
-        self.assertEqual(response.status_code,200)
 

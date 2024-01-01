@@ -1,7 +1,7 @@
 {% extends 'network/layout.html' %}
 {% load static %}
 {% block body %}
-{% if user.is_authenticated %}
+
 <section id="profile_info">
     <div class="profile_imgs">
         <img src="{% static 'network/user.jpg' %}" alt="img">
@@ -57,5 +57,5 @@
     </div> 
 </section>
 {% endfor %}
-{% endif %}
+
 {% endblock %}

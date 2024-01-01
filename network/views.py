@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.db import IntegrityError
@@ -34,6 +35,7 @@ def index(request):
     })
 
 # Following view
+@login_required
 def following(request):
     # get user 
     user = request.user
@@ -57,6 +59,7 @@ def following(request):
 
 
 # Tweet view
+@login_required
 def tweet(request):
     if request.method == 'POST':
         tweet = request.POST['tweet']
@@ -72,6 +75,7 @@ def tweet(request):
     return HttpResponseRedirect(reverse('index'))
 
 # profile view
+@login_required
 def profile(request, profile_id):
         # get user
         profile = User.objects.get(pk=profile_id)
@@ -112,6 +116,7 @@ def profile(request, profile_id):
 # follow function
 @require_POST
 @csrf_exempt
+@login_required
 def follow_user(request, account_id):
     #get user who made the request to follow the target
     user = request.user
@@ -142,6 +147,7 @@ def follow_user(request, account_id):
 
 # edit view
 @csrf_exempt
+@login_required
 def edit_post(request,post_id):
         # try if post exists
         try:
@@ -170,13 +176,12 @@ def edit_post(request,post_id):
         })
 
    
-        
-
-    
+          
     
 # like_post function
 @ require_POST
 @csrf_exempt
+@login_required
 def like_post(request,post_type,post_id):
     # get user
     user = request.user
