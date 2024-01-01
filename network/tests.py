@@ -1,5 +1,3 @@
-
-
 from django.test import TestCase, Client
 from .models import *
 from django.contrib.auth import get_user_model
@@ -42,4 +40,4 @@ class PostModelTest(TestCase):
         c = Client()
         response = c.get(f'/{user.id}')
         self.assertEqual(response.status_code,200)
-        
+
