@@ -23,6 +23,7 @@ class Post(models.Model):
 
     def __str__(self):
         return self.tweet
+    
 
 class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
